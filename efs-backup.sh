@@ -83,8 +83,9 @@ sudo touch /mnt/backups/$efsid/$interval.0/
 REGION=`curl http://169.254.169.254/latest/dynamic/instance-identity/document|grep region|awk -F\" '{print $4}'`
 echo "the region is: "
 echo $REGION
-echo ""
-sudo aws s3 sync /mnt/backups/ s3://$destinationbucket/ --delete --region $REGION > /tmp/awssync.log
+echo "sudo aws s3 sync /mnt/backups/ s3://$destinationbucket/ --delete --region $REGION &> /tmp/awssync.log"
+sudo aws s3 sync /mnt/backups/ s3://$destinationbucket/ --delete --region $REGION &> /tmp/awssync.log
+echo "sudo cp /tmp/awssync.log /mnt/backups/efsbackup-logs/$efsid-awssync-`date +%Y%m%d-%H%M`.log"
 sudo cp /tmp/awssync.log /mnt/backups/efsbackup-logs/$efsid-awssync-`date +%Y%m%d-%H%M`.log
 ###########
 
